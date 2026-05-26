@@ -90,38 +90,54 @@ Repo'nun hedeflediği gelişim sırası:
 ---
 
 ## Başlangıç
-
-> Not: Kurulum adımları geliştirme ilerledikçe netleşecektir. Aşağıdaki şablonu projenin gerçek yapısına göre güncelleyin.
-
+ 
+> Not: Kurulum adımları geliştirme ilerledikçe netleşecektir. Aşağıdaki şablonu projenin gerçek yapısına göre güncelleyeceğiz.
+ 
+Katkıda bulunmak istiyorsanız, repo'yu doğrudan klonlamak yerine **kendi hesabınıza fork'layın** ve değişikliklerinizi fork üzerinden yapıp **pull request** ile gönderin (ayrıntılar için [Katkı Sağlama](#katkı-sağlama)).
+ 
 ```bash
-# Repo'yu klonla
+# 1. Repo'yu GitHub üzerinden kendi hesabınıza fork'layın.
+ 
+# 2. Kendi fork'unuzu klonlayın
+git clone https://github.com/<kullanıcı-adınız>/magibu-llm-tools.git
+cd magibu-llm-tools
+ 
+# 3. Orijinal repo'yu "upstream" olarak ekleyin (güncel kalmak için)
+git remote add upstream https://github.com/magibu-ai/magibu-llm-tools.git
+ 
+# 4. Bağımlılıkları kur
+pip install -r requirements.txt
+```
+ 
+Sadece kullanmak/denemek istiyorsanız fork'a gerek yok, doğrudan klonlayabilirsiniz:
+ 
+```bash
 git clone https://github.com/magibu-ai/magibu-llm-tools.git
 cd magibu-llm-tools
-
-# Bağımlılıkları kur
-# (paket yöneticinize göre düzenleyin)
 ```
-
+ 
 ---
-
+ 
 ## Katkı Sağlama
-
+ 
 Katkılar çok değerli. Yeni bir tool eklemek genellikle en kolay başlangıç noktasıdır.
-
+ 
 **Yeni bir tool eklerken:**
-
+ 
 1. `tools/` altında tool'unuz için bir modül oluşturun.
 2. Ortak tool arayüzünü uygulayın (girdi şeması, çıktı şeması, çağrı ismi/açıklaması).
 3. En az birkaç birim testi yazın — özellikle uç durumlar için.
 4. README'deki sistem tablosuna tool'unuzu ve durumunu ekleyin.
 5. Kısa bir kullanım örneği ekleyin.
 
-**Genel kurallar:**
-
-- Önce bir issue açıp ne üzerinde çalışmak istediğinizi belirtin; böylece iş çakışmasını önleriz.
-- Bir branch açın (`feat/tool-adi`), değişikliklerinizi yapın, PR gönderin.
-- PR açıklamasında neyi neden değiştirdiğinizi net yazın.
-
+**Genel kurallar (fork & pull request akışı):**
+ 
+1. Önce bir issue açıp ne üzerinde çalışmak istediğinizi belirtin; böylece iş çakışmasını önleriz.
+2. Repo'yu kendi hesabınıza **fork**'layın ve fork'unuzu klonlayın (bkz. [Başlangıç](#başlangıç)).
+3. Yeni bir branch açın (`feat/tool-adi`) ve değişikliklerinizi bu branch'te yapın.
+4. Çalışmaya başlamadan önce `upstream`'i çekerek güncel kalın: `git pull upstream main`.
+5. Değişiklikleriniz bittikten sonra fork'unuza push'layın ve orijinal repo'ya bir **pull request** açın.
+6. PR açıklamasında neyi neden değiştirdiğinizi net yazın; ilgili issue'ya referans verin.
 **İlk katkı için iyi yerler:** Yukarıdaki yol haritasında `[ ]` ile işaretli, henüz başlanmamış maddeler ya da mevcut tool'lara test/doküman eklemek.
 
 ---
