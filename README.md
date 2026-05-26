@@ -1,10 +1,10 @@
-# magibu-tools
+# magibu-llm-tools
 
 > LLM inference sırasında modele yetenek kazandıran modüler tool & sistem koleksiyonu.
 
 `magibu-tools`, bir dil modelinin tek başına iyi yapamadığı ya da hiç yapamadığı işleri (kesin matematik, güncel bilgiye erişim, OCR, alana özel bilgi getirimi vb.) güvenilir biçimde yapabilmesi için ona dışarıdan bağlanan araçların toplandığı açık kaynak bir repodur. Amaç; her biri net bir arayüze sahip, bağımsız test edilebilen ve kolayca yenisi eklenebilen bir **tool ekosistemi** kurmaktır.
 
-Bu repo aktif geliştirme aşamasındadır. Bazı modüller kullanıma hazır, bazıları ise yol haritasında. Katkıya açığız — aşağıdaki [Katkı Sağlama](#katkı-sağlama) bölümüne göz atın.
+### Bu repo aktif geliştirme aşamasındadır. Bazı modüller kullanıma hazır, bazıları ise yol haritasında. Katkıya açığız, aşağıdaki [Katkı Sağlama](#katkı-sağlama) bölümüne göz atın.
 
 ---
 
@@ -30,11 +30,11 @@ Her sistem bağımsız bir modüldür. Aşağıdaki tablo mevcut durumu özetler
 |---|---|---|
 | **String fonksiyonları** | Token seviyesi işlemler: bir kelimede kaç `r` var, karakter sayma, ters çevirme, substring arama vb. | ✅ Hazır |
 | **Matematik fonksiyonları** | Hazır matematiksel işlemler: toplama, çarpma, karekök, logaritma, üs alma gibi deterministik hesaplamalar. | ✅ Hazır |
-| **Python tool** | Model gerekli gördüğünde kendisi Python scripti yazıp izole bir ortamda çalıştırabilir; çıktıyı yorumlayıp cevaba katar. | 🚧 Geliştiriliyor |
-| **Web search** | İnternet araması. Model güncel bilgiye ihtiyaç duyduğunda soru hakkında arama yapıp sonuçları cevaba dahil eder. | 🚧 Geliştiriliyor |
-| **Translate** | Çeviri görevleri için daha küçük, özelleşmiş bir çeviri modelini çağırır. | 🚧 Geliştiriliyor |
-| **OCR** | OCR görevleri için özelleşmiş bir modeli (ör. `glm-0.8b`) çağırarak görüntüden metin çıkarır. | 🚧 Geliştiriliyor |
-| **Sağlık RAG** | Tıbbi sorularda özel tıp RAG sistemini çağırır; sistemdeki makaleleri kullanarak **atıflı** tıbbi cevaplar üretir. | 🚧 Geliştiriliyor |
+| **Python tool** | Model gerekli gördüğünde kendisi Python scripti yazıp izole bir ortamda çalıştırabilir; çıktıyı yorumlayıp cevaba katar. | ✅ Hazır |
+| **Web search** | İnternet araması. Model güncel bilgiye ihtiyaç duyduğunda soru hakkında arama yapıp sonuçları cevaba dahil eder. | ✅ Hazır |
+| **Translate** | Çeviri görevleri için daha küçük, özelleşmiş bir çeviri modelini çağırır. | 📋 Planlanıyor |
+| **OCR** | OCR görevleri için özelleşmiş bir modeli (ör. `glm-0.8b`) çağırarak görüntüden metin çıkarır. | 📋 Planlanıyor |
+| **Sağlık RAG** | Tıbbi sorularda özel tıp RAG sistemini çağırır; sistemdeki makaleleri kullanarak **atıflı** tıbbi cevaplar üretir. | 📋 Planlanıyor |
 | **Uzman model yönlendirme** | Yukarıdakilere benzer şekilde, özelleşmiş görevler için ilgili uzman modele yönlendirip ondan cevap alır. | 📋 Planlanıyor |
 
 > Durum etiketleri: ✅ Hazır · 🚧 Geliştiriliyor · 📋 Planlanıyor
@@ -51,11 +51,11 @@ Kullanıcı sorusu
       ▼
    ┌─────────┐    tool gerekli mi?     ┌──────────────┐
    │   LLM   │ ──────────────────────► │ Tool Router  │
-   └─────────┘                          └──────┬───────┘
-      ▲                                         │
-      │           tool çıktısı                  ▼
-      │                                  ┌──────────────┐
-      └──────────────────────────────── │ İlgili Tool  │
+   └─────────┘                         └──────┬───────┘
+      ▲                                       │
+      │                                       ▼
+      │            tool çıktısı          ┌──────────────┐
+      └────────────────────────────────  │ İlgili Tool  │
                                          │ (math / OCR  │
                                          │  / RAG ...)  │
                                          └──────────────┘
@@ -76,16 +76,14 @@ Repo'nun hedeflediği gelişim sırası:
 
 **Kısa vade**
 - [ ] Tüm "Hazır" tool'lar için ortak şema/arayüz standardının netleştirilmesi
-- [ ] Python tool için güvenli sandbox (kaynak limiti, ağ izolasyonu)
-- [ ] Web search için en az bir sağlayıcı entegrasyonu ve sonuç özetleme
-
-**Orta vade**
 - [ ] Translate ve OCR uzman modellerinin entegrasyonu ve örnek çağrıları
 - [ ] Sağlık RAG: makale indeksleme hattı + atıf formatının standardı
+
+**Orta vade**
 - [ ] Tool router'ın değerlendirme (eval) altyapısı: hangi soru hangi tool'u tetiklemeli
+- [ ] Genel "uzman model yönlendirme" katmanı
 
 **Uzun vade**
-- [ ] Genel "uzman model yönlendirme" katmanı
 - [ ] Tool kullanım metriklerinin loglanması ve gözlemlenebilirlik
 - [ ] Çoklu tool zincirleme (bir cevap için birden çok tool'un sıralı kullanımı)
 
@@ -97,8 +95,8 @@ Repo'nun hedeflediği gelişim sırası:
 
 ```bash
 # Repo'yu klonla
-git clone https://github.com/<org>/magibu-tools.git
-cd magibu-tools
+git clone https://github.com/magibu-ai/magibu-llm-tools.git
+cd magibu-llm-tools
 
 # Bağımlılıkları kur
 # (paket yöneticinize göre düzenleyin)
@@ -125,12 +123,6 @@ Katkılar çok değerli. Yeni bir tool eklemek genellikle en kolay başlangıç 
 - PR açıklamasında neyi neden değiştirdiğinizi net yazın.
 
 **İlk katkı için iyi yerler:** Yukarıdaki yol haritasında `[ ]` ile işaretli, henüz başlanmamış maddeler ya da mevcut tool'lara test/doküman eklemek.
-
----
-
-## Lisans
-
-<!-- Lisans bilgisini buraya ekleyin, ör. MIT. -->
 
 ---
 
